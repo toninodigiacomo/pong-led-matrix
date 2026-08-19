@@ -75,7 +75,7 @@ pong-led-matrix/
 │   └── requirements.txt
 ├── hardware/
 │   ├── wiring.md
-│   └── enclosure/          # STL files for controller cases
+│   └── enclosure/               ← STL files for controller cases
 └── docs/
     └── photos/
 ```
