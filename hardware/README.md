@@ -1,3 +1,4 @@
+
 # Wiring - Pong Controllers (Seeed XIAO ESP32-S3)
 Wiring for the 2 DIY controller cases. Each case is identical: 1 rotary potentiometer (joystick) + 2 buttons (Start/Select, Pause).
 
