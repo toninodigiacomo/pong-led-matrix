@@ -58,3 +58,41 @@ This project began when I repurposed two 64x32 HUB75 LED panels that had been pu
 **Game (Python, on the Pi)**
 - pygame.joystick to read the 2 USB controllers directly (no custom serial protocol required)
 - Game loop: paddle positions, ball physics, collisions, score
+
+---
+
+## Repository Structure
+´´´txt
+pong-led-matrix/
+├── README.md
+├── firmware/
+│   └── paddle_controller/
+│       └── paddle_controller.ino
+├── software/
+│   ├── pong.py
+│   ├── display.py
+│   └── requirements.txt
+├── hardware/
+│   ├── wiring.md
+│   └── enclosure/          # STL files for controller cases
+└── docs/
+    └── photos/
+´´´
+
+---
+
+## Roadmap
+- [x] Choosing the hardware (boards, Pi, ESP32)
+- [x] Choosing the gamepad solution (Seeed XIAO ESP32-S3, native HID Gamepad)
+- [ ] Wiring and testing the two gamepads
+- [ ] ESP32-S3 firmware (reading potentiometer and buttons → HID Gamepad)
+- [ ] Configuring the Raspberry Pi + 128x32 display
+- [ ] Pong script (display, physics, score)
+- [ ] 3D-printed enclosures
+- [ ] Final assembly
+
+---
+
+## License
+**MIT**
+
