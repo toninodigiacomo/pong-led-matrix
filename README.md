@@ -6,7 +6,6 @@ This project began when I repurposed two 64x32 HUB75 LED panels that had been pu
 ---
 
 ## Overview
-
 | Element              | Description                                                                                 |
 |----------------------|---------------------------------------------------------------------------------------------|
 | Display              | 2x HUB75 64x32 panels daisy-chained → 128x32 pixels                                         |
