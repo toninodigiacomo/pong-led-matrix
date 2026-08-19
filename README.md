@@ -50,7 +50,7 @@ This project began when I repurposed two 64x32 HUB75 LED panels that had been pu
 - Chaining options: --led-cols=64 --led-rows=32 --led-chain=2
 
 **Controllers (ESP32-S3)**
-- Arduino IDE, ESP32 core, USBHIDGamepad library (TinyUSB)
+- Arduino IDE, ESP32 core, USBHIDGamepad library (TinyUSB)  
   ⚠️ Enable “USB CDC On Boot” in the board settings
 - Reads the potentiometer axis and button states, sent as native USB HID Gamepad data
 
