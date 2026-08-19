@@ -147,7 +147,9 @@ Each button is wired between its digital pin and GND, using the GPIO's internal 
 3. **Display #1 → Display #2 (daisy chaining)** 2×8 IDC ribbon cable between the OUT connector on Display #1 and the IN connector on Display #2.
 
 ⚠️ Make sure to follow the IN → OUT direction - Connecting them backwards is the most common mistake.
-4. **5V Power Supply for the Displays** ⚠️ Never power the displays from the Pi or the HAT board - **The required current far exceeds what the Pi can supply**.
+4. **5V Power Supply for the Displays** 
+
+⚠️ Never power the displays from the Pi or the HAT board - **The required current far exceeds what the Pi can supply**.
 
 ⚠️ Run a cable from the dedicated 5V power supply directly to the power terminal block of each display, in parallel (both displays on the same power supply).
 
