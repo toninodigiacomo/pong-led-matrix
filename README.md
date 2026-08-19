@@ -62,7 +62,8 @@ This project began when I repurposed two 64x32 HUB75 LED panels that had been pu
 ---
 
 ## Repository Structure
-´´´txt
+
+```txt
 pong-led-matrix/
 ├── README.md
 ├── firmware/
@@ -77,7 +78,7 @@ pong-led-matrix/
 │   └── enclosure/          # STL files for controller cases
 └── docs/
     └── photos/
-´´´
+```
 
 ---
 
