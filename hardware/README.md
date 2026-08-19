@@ -154,6 +154,5 @@ Each button is wired between its digital pin and GND, using the GPIO's internal 
 - For a width of 128 pixels → 128 × 0.12 ≈ 15.4A.
 - Plan for a 5V / 15–20A power supply to ensure sufficient power at full brightness (the brightness can be reduced via software to lower power consumption in daily use, but the power supply must be sized generously to allow for a margin).
 
-
-
-
+5. **Common Ground** The GND of the display power supply must be connected to the GND of the HAT/Pi board - Without this common ground, the display may be unstable or fail to turn on at all, even if each module is properly powered separately.  
+   ℹ️ This is done trough the GPIO GND pins.
