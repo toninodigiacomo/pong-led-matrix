@@ -94,5 +94,4 @@ pong-led-matrix/
 ---
 
 ## License
-**MIT**
-
+**MIT** [LICENCE.md](https://github.com/toninodigiacomo/pong-led-matrix/blob/f3098bfc4be7f9d33e8b683e3e7f83d1b701de16/LICENSE.md)
