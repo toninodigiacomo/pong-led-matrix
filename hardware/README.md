@@ -109,11 +109,11 @@ Each button is wired between its digital pin and GND, using the GPIO's internal 
 
 ## Complete schema
 ```txt
- ┌──────────────────────┐
- │   Power supply  5V ●─┼────┬───┬─────────────────────────────────────────┐
- │                GND ●─┼────┼───|──────────────────────────────────────┐  |
- └──────────────────────┘    │   │                                      |  |
-                             ▼   ▼                                      |  |
+ ┌──────────────────────┐                                                         ┌─────────────────────┐
+ │   Power supply  5V ●─┼────┬───┬─────────────────────────────────────────┬────►─┼──● VCC              |
+ │                GND ●─┼────┼───|──────────────────────────────────────┼──|────►─┼──● GND     TEA2025B |
+ └──────────────────────┘    │   │                                      |  |      |                     |
+                             ▼   ▼                                      |  |      └─────────────────────┘
                            ┌─┼───┼─┐      ┌──────────────────────┐      |  |
                            |  USB  |      │  HAT - Bonnet HUB75  │      |  |
             Raspberry Pi 3 └─┼───┼─┘      |                      |      |  |
@@ -157,3 +157,51 @@ Each button is wired between its digital pin and GND, using the GPIO's internal 
 
 5. **Common Ground** The GND of the display power supply must be connected to the GND of the HAT/Pi board - Without this common ground, the display may be unstable or fail to turn on at all, even if each module is properly powered separately.  
    ℹ️ This is done trough the GPIO GND pins.
+
+-----
+
+# Wiring - Audio (TEA2025B amplifier + speakers)
+## Components
+| Component               | Details                                             |
+|-------------------------|-----------------------------------------------------|
+| Amplifier               | TEA2025B Audio Amplifier                            |
+| Speakers                | 4Ω/6W speakers                                      |
+| Audio source            | Raspberry Pi's native 3.5mm jack output             |
+| Amplifier power supply  | 5V, same the Pi and displays (Mean Well RS-100-5))  |
+
+## Complete schema
+```txt
+┌────────────────────┐
+│   Raspberry Pi 3   │
+│                    │
+│   Jack 3.5mm ●─────┼──────┐
+└────────────────────┘      │
+                            ▼
+                    ┌───────┼─────────────┐
+                    │       ●             │
+                    │       IN            │
+                    │                     │
+ 5V (RS-100-5) ───►─┼──● VCC              │
+           GND ───►─┼──● GND              │
+                    │                     │
+                    │      TEA2025B       │
+                    │                     │
+                    │  OUT L ●────────────┼───► Left Speaker (4Ω)
+                    │  OUT R ●────────────┼───► Right Speaker (4Ω)
+                    └─────────────────────┘
+```
+
+## Connection Details
+| From                  | To                              |
+|-----------------------|---------------------------------|
+| Pi — 3.5mm jack (L/R) | TEA2025B — audio input (IN L/R) |
+| RS-100-5 — 5V         | TEA2025B — VCC                  |
+| RS-100-5 — GND        | TEA2025B — GND                  |
+| TEA2025B — OUT L      | Left speaker (+ terminal)       |
+| TEA2025B — OUT R      | Right speaker (+ terminal)      |
+
+> The TEA2025B operates from 3V to 15V—at 5V (a rail shared with the Pi and displays), the output power will be approximately 2×0.5–1W, which is more than enough for arcade beeps and sound effects on 3W speakers.
+
+## Assembly  Notes
+- The Pi → amp module jack cable will be a simple 3.5mm male-to-male jack cable cut on one end (with the L/R/GND wires soldered directly).
+- The amplifier and speakers should be at a reasonable distance from the HUB75 wiring (signal and power for the panels) to prevent any electrical noise from being induced into the audio signal.
