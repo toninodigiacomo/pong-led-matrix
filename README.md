@@ -8,10 +8,19 @@ This project began when I repurposed two 64x32 HUB75 LED panels that had been pu
 ## Overview
 | Element              | Description                                                                                 |
 |----------------------|---------------------------------------------------------------------------------------------|
-| Display              | 2x HUB75 64x32 panels daisy-chained → 128x32 pixels                                         |
+| Display              | 2x HUB75 64x32 panels daisy-chained → 64x64 pixels                                          |
 | Display controller   | Raspberry Pi3 + Adafruit RGB Matrix HAT                                                     |
 | Controllers          | 2x DIY enclosures, rotary potentiometer + buttons, Seeed XIAO ESP32-S3 as a USB HID gamepad |
 | Programming Language | Python (game + logic), C++/Arduino (controller firmware)                                    |
+
+---
+
+## Bouttons Mapping
+| Boutton       | Menu                       | Pong           | Space Invaders         |
+|---------------|----------------------------|----------------|------------------------|
+| Potentiometer | —                          | Vertical Moves | Horizontal Moves       |
+| Boutton 1     | (Start/Select) Choose game | —              | Pause / Return to menu |
+| Boutton 2     | Choice validation          | —              | Fire                   |
 
 ---
 
@@ -46,16 +55,16 @@ This project began when I repurposed two 64x32 HUB75 LED panels that had been pu
 
 ## Software
 **Display (Raspberry Pi)**
-- rpi-rgb-led-matrix library (hzeller) with Python bindings
-- Chaining options: --led-cols=64 --led-rows=32 --led-chain=2
+- ```rpi-rgb-led-matrix``` library (hzeller) with Python bindings
+- Chaining options: ```--led-cols=64 --led-rows=32 --led-chain=2```
 
 **Controllers (ESP32-S3)**
-- Arduino IDE, ESP32 core, USBHIDGamepad library (TinyUSB)  
+- Arduino IDE, ESP32 core, ```USBHIDGamepad``` library (TinyUSB)  
   ⚠️ Enable “USB CDC On Boot” in the board settings
 - Reads the potentiometer axis and button states, sent as native USB HID Gamepad data
 
 **Game (Python, on the Pi)**
-- pygame.joystick to read the 2 USB controllers directly (no custom serial protocol required)
+- ```pygame.joystick``` to read the 2 USB controllers directly (no custom serial protocol required)
 - Game loop: paddle positions, ball physics, collisions, score
 
 ---
@@ -84,6 +93,8 @@ pong-led-matrix/
 ## Roadmap
 - [x] Choosing the hardware (boards, Pi, ESP32)
 - [x] Choosing the gamepad solution (Seeed XIAO ESP32-S3, native HID Gamepad)
+- [x] Selecting the final resolution (64x64, stacked tiles) and power supply (shared RS-100-5)
+- [x] Scope decision: Pong / Space Invaders selection menu
 - [ ] Wiring and testing the two gamepads
 - [ ] ESP32-S3 firmware (reading potentiometer and buttons → HID Gamepad)
 - [ ] Configuring the Raspberry Pi + 128x32 display
