@@ -12,7 +12,7 @@ This project began when I repurposed two 64x32 HUB75 LED panels that had been pu
 | Display controller   | Raspberry Pi3 + Adafruit RGB Matrix HAT                                                     |
 | Power Supply         | Mean Well RS-100-5 (5V/16A), shared between the displays and the Pi                         |
 | Controllers          | 2x DIY enclosures, rotary potentiometer + buttons, Seeed XIAO ESP32-S3 as a USB HID gamepad |
-| Audio                | 3.5mm jack output from the Pi → TEA2025B amplifier → 2x 4Ω/3W speakers              |
+| Audio                | 3.5mm jack output from the Pi → TEA2025B amplifier → 2x 4Ω/6W speakers              |
 | Games                | Pong (2 players) and Space Invaders; select from the menu at startup                        |
 | Programming Language | Python (game + logic), C++/Arduino (controller firmware)                                    |
 
@@ -37,7 +37,7 @@ This project began when I repurposed two 64x32 HUB75 LED panels that had been pu
 
 **Audio**
 - [TEA2025B Audio Amplifier](https://de.aliexpress.com/item/1005012801173174.html?spm=a2g0o.productlist.main.1.1c8bflQGflQGda&algo_pvid=b67b78a7-3298-4af2-8a0d-c95be90dea23&algo_exp_id=b67b78a7-3298-4af2-8a0d-c95be90dea23-0&pdp_ext_f=%7B%22order%22%3A%22-1%22%2C%22eval%22%3A%221%22%2C%22fromPage%22%3A%22search%22%7D&pdp_npi=6%40dis%21CHF%212.46%212.26%21%21%2120.26%2118.64%21%400b0fe0e117872121393163664e0f91%2112000059414454099%21sea%21CH%21173941914%21X%211%210%21n_tag%3A-29919%3Bd%3A93c017af%3Bm03_new_user%3A-29895&curPageLogUid=ZYh1J0QC43xJ&utparam-url=scene%3Asearch%7Cquery_from%3A%7Cx_object_id%3A1005012801173174%7C_p_origin_prod%3A)
-- [4Ω/3W speakers](https://de.aliexpress.com/item/1005008203437092.html?spm=a2g0o.detail.pcDetailTopMoreOtherSeller.4.4a9fkwwMkwwMOQ&gps-id=pcDetailTopMoreOtherSeller&scm=1007.40050.354490.0&scm_id=1007.40050.354490.0&scm-url=1007.40050.354490.0&pvid=faf896da-71e2-4475-9a6c-03c44d29bedd&_t=gps-id%3ApcDetailTopMoreOtherSeller%2Cscm-url%3A1007.40050.354490.0%2Cpvid%3Afaf896da-71e2-4475-9a6c-03c44d29bedd%2Ctpp_buckets%3A668%232846%238109%231935&pdp_ext_f=%7B%22order%22%3A%2290%22%2C%22spu_best_type%22%3A%22price%22%2C%22eval%22%3A%221%22%2C%22sceneId%22%3A%2230050%22%2C%22fromPage%22%3A%22recommend%22%7D&pdp_npi=6%40dis%21CHF%217.08%216.21%21%21%218.69%217.62%21%4021613a6017872122511247010e0fec%2112000044223422807%21rec%21CH%21173941914%21XZ%211%210%21n_tag%3A-29919%3Bd%3A93c017af%3Bm03_new_user%3A-29895&utparam-url=scene%3ApcDetailTopMoreOtherSeller%7Cquery_from%3A%7Cx_object_id%3A1005008203437092%7C_p_origin_prod%3A)
+- [4Ω/6W speakers](https://de.aliexpress.com/item/1005008203437092.html?spm=a2g0o.detail.pcDetailTopMoreOtherSeller.4.4a9fkwwMkwwMOQ&gps-id=pcDetailTopMoreOtherSeller&scm=1007.40050.354490.0&scm_id=1007.40050.354490.0&scm-url=1007.40050.354490.0&pvid=faf896da-71e2-4475-9a6c-03c44d29bedd&_t=gps-id%3ApcDetailTopMoreOtherSeller%2Cscm-url%3A1007.40050.354490.0%2Cpvid%3Afaf896da-71e2-4475-9a6c-03c44d29bedd%2Ctpp_buckets%3A668%232846%238109%231935&pdp_ext_f=%7B%22order%22%3A%2290%22%2C%22spu_best_type%22%3A%22price%22%2C%22eval%22%3A%221%22%2C%22sceneId%22%3A%2230050%22%2C%22fromPage%22%3A%22recommend%22%7D&pdp_npi=6%40dis%21CHF%217.08%216.21%21%21%218.69%217.62%21%4021613a6017872122511247010e0fec%2112000044223422807%21rec%21CH%21173941914%21XZ%211%210%21n_tag%3A-29919%3Bd%3A93c017af%3Bm03_new_user%3A-29895&utparam-url=scene%3ApcDetailTopMoreOtherSeller%7Cquery_from%3A%7Cx_object_id%3A1005008203437092%7C_p_origin_prod%3A)
  
 **Joysticks (x2)**
 - [1x Seeed XIAO ESP32-S3](https://de.aliexpress.com/item/1005009532378267.html?spm=a2g0o.order_list.order_list_main.62.21ef5e5bRagfYp&gatewayAdapt=glo2deu)
@@ -78,7 +78,7 @@ This project began when I repurposed two 64x32 HUB75 LED panels that had been pu
 **Audio (Raspberry Pi)**
 - Native 3.5mm jack output from the Pi → input of the TEA2025B amplifier module
 - TEA2025B powered by 5V (same power rail as the Pi and the displays, RS-100-5)
-- TEA2025B Output → 2x Speakers 4Ω/3W
+- TEA2025B Output → 2x Speakers 4Ω/6W
 
 ---
 
