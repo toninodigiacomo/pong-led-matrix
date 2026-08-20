@@ -97,8 +97,10 @@ pong-led-matrix/
 - [x] Scope decision: Pong / Space Invaders selection menu
 - [ ] Wiring and testing the two gamepads
 - [ ] ESP32-S3 firmware (reading potentiometer and buttons → HID Gamepad)
-- [ ] Configuring the Raspberry Pi + 128x32 display
+- [ ] Configuring the Raspberry Pi + 64x64 display
+- [ ] Selection Menu script
 - [ ] Pong script (display, physics, score)
+- [ ] Space Invaders script (display, shoot, enemies, collisions)
 - [ ] 3D-printed enclosures
 - [ ] Final assembly
 
