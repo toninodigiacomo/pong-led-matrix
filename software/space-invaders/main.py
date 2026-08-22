@@ -1,10 +1,16 @@
 """
-Point d'entrée. Aujourd'hui : lance directement Space Invaders en sortie
-HDMI (fenêtre agrandie), clavier ou pad si déjà branché.
-
-Plus tard : ce fichier deviendra le menu de sélection Pong / Space Invaders,
-et Display basculera sur la matrice LED. Le reste du code (space_invaders.py,
-input_handler.py) n'aura pas besoin de changer.
+# ╭────────────────────────────────────────────────────────────────────────────────────────────
+# │   Entry point.
+# ├────────────────────────────────────────────────────────────────────────────────────────────
+# │   Today.   : directly launches Space Invaders in HDMI output
+# │              (HDMI window), keyboard or gamepad if already connected.
+# │   Later on : this file will become the Pong/Space Invaders selection menu,
+# │              and `Display` will switch to the LED matrix. The rest of the code 
+# │              (`space_invaders.py`,`input_handler.py`) will not need to be changed
+# ├────────────────────────────────────────────────────────────────────────────────────────────
+# │   The game loop is in `main()`, which calls the `update()` and `draw()` methods of
+# │   `SpaceInvadersGame` (in `space_invaders.py`) every frame
+# └────────────────────────────────────────────────────────────────────────────────────────────
 """
 
 import sys
@@ -16,7 +22,6 @@ from sound import SoundBank
 from space_invaders import SpaceInvadersGame
 
 FPS = 60
-
 
 def main():
     display = Display(fullscreen=False)

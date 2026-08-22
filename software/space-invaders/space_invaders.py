@@ -1,15 +1,17 @@
 """
-Space Invaders, pensé pour un canvas de 64x64 pixels.
-
-Contrôles (via InputHandler, clavier ou pad) :
-  - move_axis()  : déplacement horizontal du vaisseau
-  - fire_pressed() : tir (maintenu = tir automatique cadencé)
-  - pause         : bouton 1 / touche P
-
-Le jeu ne connaît pas pygame.display ni le clavier directement : il
-dessine sur le canvas fourni par Display, et lit les entrées via
-InputHandler. Ça permettra de brancher la matrice LED + le pad ESP32
-plus tard sans toucher ce fichier.
+# ╭────────────────────────────────────────────────────────────────────────────────────────────
+# │   Space Invaders, designed for a 64x64-pixel canvas.
+# ├────────────────────────────────────────────────────────────────────────────────────────────
+# │   Controls (via InputHandler, keyboard, or gamepad):
+# │     - move_axis()    : move the ship horizontally
+# │     - fire_pressed() : fire (hold down = automatic rapid-fire)
+# │     - pause          : button 1 / P key
+# ├────────────────────────────────────────────────────────────────────────────────────────────
+# │   The game does not use pygame.display or the keyboard directly: it
+# │   draws on the canvas provided by Display and reads input via
+# │   InputHandler. This will allow you to connect the LED matrix and the ESP32 gamepad
+# │   later without modifying this file.
+# └────────────────────────────────────────────────────────────────────────────────────────────
 """
 
 import random
@@ -24,22 +26,21 @@ YELLOW = (230, 210, 60)
 GREY = (120, 120, 120)
 
 PLAYER_WIDTH, PLAYER_HEIGHT = 5, 3
-PLAYER_SPEED = 40  # pixels/seconde
+PLAYER_SPEED = 40                       # pixels/seconde
 PLAYER_Y = HEIGHT - 6
 
 BULLET_SPEED = 60
-FIRE_COOLDOWN = 0.35  # secondes entre 2 tirs
+FIRE_COOLDOWN = 0.35                    # seconds between shots
 
 INVADER_COLS = 8
 INVADER_ROWS = 4
 INVADER_W, INVADER_H = 5, 4
 INVADER_SPACING_X = 7
 INVADER_SPACING_Y = 6
-INVADER_TOP = 6
+INVADER_TOP = 6 
 INVADER_STEP_DOWN = 3
 INVADER_BULLET_SPEED = 30
-INVADER_FIRE_CHANCE_PER_SEC = 0.6  # probabilité qu'UN envahisseur tire, par seconde
-
+INVADER_FIRE_CHANCE_PER_SEC = 0.6       # probability that an invader will fire, per second
 
 class Player:
     def __init__(self):
@@ -62,7 +63,7 @@ class Bullet:
     def __init__(self, x, y, speed, color):
         self.x = x
         self.y = y
-        self.speed = speed  # positif = descend, négatif = monte
+        self.speed = speed              # positive = down, negative = up
         self.color = color
         self.alive = True
 
@@ -85,12 +86,12 @@ class InvaderSwarm:
             for col in range(INVADER_COLS):
                 x = 4 + col * INVADER_SPACING_X
                 y = INVADER_TOP + row * INVADER_SPACING_Y
-                self.invaders.append([x, y, True])  # x, y, vivant
+                self.invaders.append([x, y, True])  # x, y, alive
 
-        self.direction = 1  # 1 = droite, -1 = gauche
-        self.base_speed = 6  # pixels/seconde, augmente quand il en reste moins
+        self.direction = 1              # 1 = right, -1 = left
+        self.base_speed = 6             # pixels per second; it increases as the number remaining decreases
         self.move_timer = 0.0
-        self.step_interval = 0.8  # secondes entre 2 pas (façon jeu d'origine, saccadé)
+        self.step_interval = 0.8        # seconds between 2 steps (way of the original game, jerky)
 
     def alive_count(self):
         return sum(1 for inv in self.invaders if inv[2])
@@ -100,7 +101,7 @@ class InvaderSwarm:
         if alive == 0:
             return
 
-        # le rythme s'accélère à mesure qu'il reste moins d'envahisseurs
+        # the rhythm accelerates as there are fewer invaders left
         self.step_interval = max(0.12, 0.15 + 0.65 * (alive / (INVADER_COLS * INVADER_ROWS)))
 
         self.move_timer += dt
@@ -108,7 +109,7 @@ class InvaderSwarm:
             return
         self.move_timer = 0.0
 
-        # calcule si on touche un bord avec ce pas
+        # calculate if we hit an edge with this step
         min_x = min(inv[0] for inv in self.invaders if inv[2])
         max_x = max(inv[0] + INVADER_W for inv in self.invaders if inv[2])
 
@@ -126,14 +127,14 @@ class InvaderSwarm:
         sound.play("invader_step")
 
     def base_speed_step(self):
-        return 2  # pas fixe par "tick" de déplacement (façon rythme saccadé d'origine)
+        return 2                        # fixed step by "tick" of movement (way of the original game, jerky)
 
     def lowest_y(self):
         alive = [inv[1] + INVADER_H for inv in self.invaders if inv[2]]
         return max(alive) if alive else 0
 
     def maybe_fire(self, dt):
-        """Renvoie une position de tir ennemi, ou None."""
+        """Return an enemy fire position, or None."""
         if random.random() < INVADER_FIRE_CHANCE_PER_SEC * dt:
             shooters = [inv for inv in self.invaders if inv[2]]
             if shooters:
@@ -149,14 +150,13 @@ class InvaderSwarm:
 
 class SpaceInvadersGame:
     """
-    Une partie de Space Invaders. Usage :
-
-        game = SpaceInvadersGame(sound_bank)
-        while running:
-            game.update(dt, input_handler, events)
-            game.draw(canvas)
-            if game.is_over():
-                ...
+    A Space Invaders game. Usage:
+    game = SpaceInvadersGame(sound_bank)
+    while running:
+        game.update(dt, input_handler, events)
+        game.draw(canvas)
+        if game.is_over():
+            ...
     """
 
     def __init__(self, sound_bank):
@@ -186,7 +186,7 @@ class SpaceInvadersGame:
         axis = input_handler.move_axis()
         self.player.update(dt, axis)
 
-        # tir joueur
+        # player shot
         self.fire_cooldown_timer -= dt
         if input_handler.fire_pressed() and self.fire_cooldown_timer <= 0:
             bx = self.player.x + PLAYER_WIDTH / 2
@@ -194,14 +194,14 @@ class SpaceInvadersGame:
             self.sound.play("shoot")
             self.fire_cooldown_timer = FIRE_COOLDOWN
 
-        # essaim
+        # invader shots
         self.swarm.update(dt, self.sound)
         fire_pos = self.swarm.maybe_fire(dt)
         if fire_pos:
             fx, fy = fire_pos
             self.invader_bullets.append(Bullet(fx, fy, INVADER_BULLET_SPEED, RED))
 
-        # mise à jour des tirs
+        # update shots
         for b in self.player_bullets:
             b.update(dt)
         for b in self.invader_bullets:
@@ -211,19 +211,19 @@ class SpaceInvadersGame:
 
         self._handle_collisions()
 
-        # défaite : un envahisseur atteint le joueur, ou plus de vies
+        #   game over : an invader reached the player or the player has no more lives
         if self.swarm.lowest_y() >= self.player.y or self.player.lives <= 0:
             self.game_over = True
             self.won = False
             self.sound.play("game_over")
 
-        # victoire : plus aucun envahisseur
+        # victory : no more invaders
         if self.swarm.alive_count() == 0:
             self.game_over = True
             self.won = True
 
     def _handle_collisions(self):
-        # tirs joueur vs envahisseurs
+        # player shots vs invaders
         for b in self.player_bullets:
             if not b.alive:
                 continue
@@ -238,7 +238,7 @@ class SpaceInvadersGame:
                     self.sound.play("explosion")
                     break
 
-        # tirs ennemis vs joueur
+        # invader shots vs player
         player_rect = self.player.rect()
         for b in self.invader_bullets:
             if b.alive and player_rect.colliderect(b.rect()):
@@ -258,7 +258,7 @@ class SpaceInvadersGame:
         for b in self.invader_bullets:
             b.draw(canvas)
 
-        # score en haut (police très petite, dessinée en pixels)
+        # score at the top (very small font, pixel-based)
         self._draw_score(canvas)
 
         if self.paused:
@@ -269,15 +269,15 @@ class SpaceInvadersGame:
             self._draw_text_center(canvas, msg, YELLOW if self.won else RED, y=WIDTH // 2)
 
     def _draw_score(self, canvas):
-        # barre de vies en haut à gauche (petits carrés), score pas affiché en
-        # chiffres pour rester simple en 64x64 - à améliorer avec une police
-        # pixel dédiée plus tard si besoin
+        # health bar in the upper-left corner (small squares), score not displayed in
+        # Numbers, kept simple at 64x64—to be improved with a font dedicated pixel 
+        # later if needed
         for i in range(self.player.lives):
             pygame.draw.rect(canvas, GREEN, pygame.Rect(2 + i * 4, 1, 2, 2))
 
     def _draw_text_center(self, canvas, text, color, y):
-        # rendu texte minimal via police pygame par défaut, réduite à la taille
-        # du canvas - suffisant pour un message court en 64x64
+        # Minimal text rendering using the default Pygame font, scaled down to the specified size
+        #   of the canvas—enough for a short 64x64 message
         font = pygame.font.SysFont(None, 12)
         surf = font.render(text, False, color)
         rect = surf.get_rect(center=(WIDTH // 2, y))

@@ -1,18 +1,19 @@
 """
-Abstraction des entrées de jeu.
-
-Aujourd'hui : clavier (pas encore de pad DIY assemblé).
-Plus tard   : pad ESP32-S3 reconnu comme joystick USB (HID Gamepad),
-              lu via pygame.joystick au lieu du clavier.
-
-Le reste du code de jeu n'utilise QUE les méthodes de InputHandler
-(move_axis, fire_pressed, pause_pressed...) - jamais directement le
-clavier ou le joystick. Ça permet de basculer d'une source à l'autre
-sans toucher à la logique de jeu.
+# ╭────────────────────────────────────────────────────────────────────────────────────────────
+# │   Abstraction of game inputs.
+# ├────────────────────────────────────────────────────────────────────────────────────────────
+# │   Today : keyboard (no DIY pad assembled yet).
+# │   Later : ESP32-S3 pad recognized as a USB joystick (HID Gamepad),
+# │           read via pygame.joystick instead of the keyboard.
+# ├────────────────────────────────────────────────────────────────────────────────────────────
+# │   The rest of the game code only uses the methods of InputHandler
+# │   (move_axis, fire_pressed, pause_pressed...) - never directly the
+# │   keyboard or the joystick. This allows switching between sources
+# │   without touching the game logic.
+# └────────────────────────────────────────────────────────────────────────────────────────────
 """
 
 import pygame
-
 
 class InputHandler:
     def __init__(self):
@@ -21,24 +22,24 @@ class InputHandler:
 
     def _init_joystick_if_available(self):
         """
-        Détecte automatiquement un pad ESP32-S3 branché en USB.
-        Si aucun pad n'est trouvé, on reste sur le clavier - pratique
-        pour développer/tester avant d'avoir le matériel.
+        Automatically detects an ESP32-S3 pad connected via USB.
+        If no pad is found, it defaults to the keyboard—which is handy
+        for developing and testing before you have the hardware.
         """
         pygame.joystick.init()
         if pygame.joystick.get_count() > 0:
             self.joystick = pygame.joystick.Joystick(0)
             self.joystick.init()
-            print(f"Pad détecté : {self.joystick.get_name()}")
+            print(f"Pad detected : {self.joystick.get_name()}")
         else:
-            print("Aucun pad détecté - contrôle au clavier (flèches + espace + P)")
+            print("No pad detected - using keyboard (arrows + space + P)")
 
     def move_axis(self):
         """
-        Retourne une valeur entre -1.0 (gauche) et 1.0 (droite).
+        Returns a value between -1.0 (left) and 1.0 (right).
 
-        - Pad ESP32 : lit l'axe du potentiomètre (HID Gamepad axis)
-        - Clavier   : flèches gauche/droite (tout ou rien, -1 / 0 / 1)
+        - ESP32 Pad: reads the potentiometer axis (HID Gamepad axis)
+        - Keyboard: left/right arrow keys (on/off, -1 / 0 / 1)
         """
         if self.joystick:
             axis = self.joystick.get_axis(0)  # axe horizontal du gamepad
@@ -53,7 +54,7 @@ class InputHandler:
         return 0.0
 
     def fire_pressed(self):
-        """Bouton 2 sur le pad (tir) - Espace au clavier."""
+        """Button 2 on the gamepad (shoot) - Space bar on the keyboard."""
         if self.joystick:
             return self.joystick.get_button(1)
         keys = pygame.key.get_pressed()
@@ -61,9 +62,9 @@ class InputHandler:
 
     def pause_pressed_this_frame(self, events):
         """
-        Bouton 1 sur le pad (Start/Select -> pause en jeu) - touche P
-        au clavier. Détecté sur l'appui (edge), pas en continu, pour
-        éviter de basculer pause/reprise plusieurs fois par frame.
+        Button 1 on the gamepad (Start/Select -> pause in game) - P key
+        on the keyboard. Detected on the press (edge), not continuously, to
+        avoid toggling pause/resume multiple times per frame.
         """
         for event in events:
             if event.type == pygame.KEYDOWN and event.key == pygame.K_p:

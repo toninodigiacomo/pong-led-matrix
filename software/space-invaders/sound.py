@@ -1,10 +1,13 @@
 """
-Sons rétro générés en direct (ondes carrées), sans aucun fichier audio
-externe - dans l'esprit 8-bit de Space Invaders/Pong d'origine.
-
-Si l'initialisation audio échoue (pas de haut-parleur branché sur le
-Pi pendant les tests HDMI, par exemple), le jeu continue silencieusement
-plutôt que de planter.
+# ╭────────────────────────────────────────────────────────────────────────────────────────────
+# │   Display Abstraction.
+# ├────────────────────────────────────────────────────────────────────────────────────────────
+# │   Live-generated retro sounds (square waves), without any external audio files
+# │   — in the 8-bit spirit of the original Space Invaders and Pong.
+# ├────────────────────────────────────────────────────────────────────────────────────────────
+# │   If audio initialization fails (for example, if no speaker is connected to the
+# │   Pi during HDMI testing), the game continues silently rather than crashing.
+# └────────────────────────────────────────────────────────────────────────────────────────────
 """
 
 import numpy as np
@@ -12,14 +15,13 @@ import pygame
 
 SAMPLE_RATE = 44100
 
-
 class SoundBank:
     def __init__(self):
         self.enabled = True
         try:
             pygame.mixer.init(frequency=SAMPLE_RATE, size=-16, channels=2)
         except pygame.error:
-            print("Pas de sortie audio disponible - le jeu continue sans son.")
+            print("No audio output available—the game continues without sound.")
             self.enabled = False
             return
 
@@ -31,7 +33,7 @@ class SoundBank:
     def _make_beep(self, freq, duration):
         t = np.linspace(0, duration, int(SAMPLE_RATE * duration), False)
         wave = np.sign(np.sin(freq * t * 2 * np.pi))
-        fade = np.linspace(1, 0, len(wave))  # évite un petit clic en fin de son
+        fade = np.linspace(1, 0, len(wave))  # prevents a slight click at the end of the sound
         audio = (wave * fade * 20000).astype(np.int16)
         stereo = np.column_stack([audio, audio])
         return pygame.sndarray.make_sound(np.ascontiguousarray(stereo))
